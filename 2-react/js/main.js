@@ -1,4 +1,3 @@
-// TODO
 const element = (
   <>
     <header>
