@@ -13,11 +13,31 @@ class App extends React.Component {
   }
 
   handleReset() {
-    // TODO
+    // 검색 기록 삭제
+    this.setState({ searchKeyword: "" });
+    console.log("Reset History", this.state.searchKeyword); // setState는 항상 비동기로 동작하기 때문에 searchKeyword 초기화가 바로 반영되지 않음.
+
+    this.setState(
+      // 업데이트 함수
+      () => {
+        return { searchKeyword: "" };
+      },
+      () => {
+        console.log("Reset History", this.state.searchKeyword); // setState 변경이 완료되면 호출됨.
+      }
+    );
+
+    if (this.setState({ searchKeyword }) === null) {
+    }
   }
 
   handleChangeInput(event) {
     const searchKeyword = event.target.value;
+
+    if (searchKeyword.length <= 0) {
+      return this.handleReset();
+    }
+
     this.setState({ searchKeyword });
   }
 
@@ -30,7 +50,7 @@ class App extends React.Component {
         <div className="container">
           <form
             onSubmit={(event) => this.handleSubmit(event)}
-            // TODO
+            onReset={() => this.handleReset()}
           >
             <input
               type="text"
